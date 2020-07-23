@@ -14,18 +14,38 @@ struct Cli {
     )]
     // Shows the total amount rolled
     total: bool,
+    #[structopt(
+        short = "m",
+        long = "min",
+        help = "Show the minimum possible total result"
+    )]
+    // Shows the total amount rolled
+    min: bool,
+    #[structopt(
+        short = "M",
+        long = "max",
+        help = "Show the maximum possible total result"
+    )]
+    // Shows the total amount rolled
+    max: bool,
 }
 
 fn main() {
     let args = Cli::from_args();
-    let die_count = args.die_count;
-    let die_size = args.die_size;
     let mut total = 0;
 
-    for _ in 1..die_count + 1 {
-        let result = rand::thread_rng().gen_range(1, die_size + 1);
+    for _ in 1..args.die_count + 1 {
+        let result = rand::thread_rng().gen_range(1, args.die_size + 1);
         total += result;
         println!("{}", result);
+    }
+
+    if args.min {
+        println!("Minimum: {}", args.die_count);
+    }
+
+    if args.max {
+        println!("Maximum: {}", args.die_count * args.die_size);
     }
 
     if args.total {
