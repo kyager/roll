@@ -11,8 +11,15 @@ fn main() {
     let args = Cli::from_args();
     let die_count = args.die_count;
     let die_size = args.die_size;
+    let mut total = 0;
 
     for _ in 1..die_count + 1 {
-        println!("{}", rand::thread_rng().gen_range(1, die_size + 1));
+        let result = rand::thread_rng().gen_range(1, die_size + 1);
+        total += result;
+        println!("{}", result);
+    }
+
+    if die_count > 1 {
+        println!("Total: {}", total);
     }
 }
