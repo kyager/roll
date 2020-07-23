@@ -3,8 +3,17 @@ use structopt::StructOpt;
 
 #[derive(StructOpt)]
 struct Cli {
-    die_count: u32, // The number of die to roll
-    die_size: u32,  // The size of the die being rolled
+    #[structopt(default_value = "1")] // The number of die to roll, defaulted to 1
+    die_count: u32,
+    #[structopt(default_value = "20")] // The size of the die being rolled, defaulted to 20
+    die_size: u32,
+    #[structopt(
+        short = "t",
+        long = "total",
+        help = "Show total result of the die rolled"
+    )]
+    // Shows the total amount rolled
+    total: bool,
 }
 
 fn main() {
@@ -19,7 +28,7 @@ fn main() {
         println!("{}", result);
     }
 
-    if die_count > 1 {
+    if args.total {
         println!("Total: {}", total);
     }
 }
