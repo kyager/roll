@@ -1,4 +1,6 @@
 use rand::Rng;
+use std::io;
+use std::io::Write;
 use structopt::StructOpt;
 
 #[derive(StructOpt)]
@@ -14,18 +16,10 @@ struct Cli {
     )]
     // Shows the total amount rolled
     total: bool,
-    #[structopt(
-        short = "m",
-        long = "min",
-        help = "Show the minimum possible total result"
-    )]
+    #[structopt(short = "m", long = "min", help = "Show the minimum possible result")]
     // Shows the total amount rolled
     min: bool,
-    #[structopt(
-        short = "M",
-        long = "max",
-        help = "Show the maximum possible total result"
-    )]
+    #[structopt(short = "M", long = "max", help = "Show the maximum possible result")]
     // Shows the total amount rolled
     max: bool,
 }
@@ -37,8 +31,11 @@ fn main() {
     for _ in 1..args.die_count + 1 {
         let result = rand::thread_rng().gen_range(1, args.die_size + 1);
         total += result;
-        println!("{}", result);
+        print!("{} ", result);
+        io::stdout().flush().unwrap();
     }
+
+    println!("");
 
     if args.min {
         println!("Minimum: {}", args.die_count);
